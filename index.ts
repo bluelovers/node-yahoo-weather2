@@ -3,8 +3,14 @@
  */
 
 import { ICode } from './locales';
-import getWeather, { IChannel, IForecast, vNumber } from './api';
+import getWeather, { IChannel, IForecast, vNumber, IItem } from './api';
 import * as moment from 'moment';
+import * as geoTimezone from 'geo-timezone';
+import * as util from 'util';
+
+export const decodeByLngLat = util.promisify(geoTimezone.decodeByLngLat);
+
+import 'moment-timezone';
 
 export { getWeather };
 
@@ -14,7 +20,28 @@ export const FORMAT_DATE = 'DD MMM YYYY';
 export interface IOptions
 {
 	lang?: string | any[];
-	utcOffset?: number | null;
+	utcOffset?: number | string | moment.Moment | null;
+}
+
+export interface IGeoTimezone
+{
+	dstOffset: number;
+	rawOffset: number,
+	status: string,
+	timeZoneId: string,
+	timeZoneName: string
+}
+
+export async function geoTimeZoneId(channel: IChannel | IItem): Promise<string>
+{
+	let z = await decodeByLngLat({
+		/**
+		 * [ltn, lat]
+		 */
+		coordinates: [(channel as IItem).long || (channel as IChannel).item.long, (channel as IItem).lat || (channel as IChannel).item.lat]
+	}) as IGeoTimezone;
+
+	return z.timeZoneId;
 }
 
 export function _date(argv: string | any[], utcOffset?)
@@ -66,6 +93,15 @@ export function packWeather(channel: IChannel, options: IOptions = {})
 		{
 			options.utcOffset = moment().utcOffset();
 		}
+	}
+
+	if (typeof options.utcOffset === 'string')
+	{
+		options.utcOffset = moment().tz(options.utcOffset).utcOffset();
+	}
+	else if (typeof options.utcOffset === 'object')
+	{
+		options.utcOffset = (options.utcOffset as moment.Moment).utcOffset();
 	}
 
 	if (options.utcOffset === null)
@@ -145,6 +181,26 @@ export function locales(lang: string, fallback?, cb?: Function)
 	}
 
 	return null;
+}
+
+export function getWeatherPack(location: string, unit: string | object = 'c', options?)
+{
+	if (typeof unit == 'object')
+	{
+		[unit, options] = [null, unit];
+	}
+
+	return getWeather(location, unit, options)
+		.then(async function (channel)
+		{
+			let z = await geoTimeZoneId(channel);
+
+			return packWeather(channel, {
+				lang: ((options && options.lang) ? options.lang : null),
+				utcOffset: z,
+			});
+		})
+	;
 }
 
 export default exports;

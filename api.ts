@@ -60,20 +60,23 @@ export interface IChannel
 		url: string
 	};
 
-	item: {
-		title: string,
-		lat: vNumber,
-		long: vNumber,
-		link: string,
-		pubDate: vDate,
-		condition: {
-			code: vNumber,
-			date: vDate,
-			temp: vNumber,
-			text: string
-		},
-		forecast: IForecast[]
-	};
+	item: IItem;
+}
+
+export interface IItem
+{
+	title: string,
+	lat: vNumber,
+	long: vNumber,
+	link: string,
+	pubDate: vDate,
+	condition: {
+		code: vNumber,
+		date: vDate,
+		temp: vNumber,
+		text: string
+	},
+	forecast: IForecast[]
 }
 
 export interface IForecast
