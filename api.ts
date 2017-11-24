@@ -3,14 +3,19 @@
  */
 
 import fetch from 'lets-fetch';
+import * as moment from 'moment';
 
 export type vNumber = string | number;
+export type vDate = string | moment.Moment;
 
+/**
+ * https://developer.yahoo.com/weather/documentation.html
+ */
 export interface IYahoo
 {
 	query: {
 		count: number,
-		created: string,
+		created: vDate,
 		lang: string,
 		results: { channel: IChannel }
 	};
@@ -21,7 +26,7 @@ export interface IChannel
 	units: {
 		distance: string,
 		pressure: string,
-		speed: vNumber,
+		speed: string,
 		temperature: string
 	};
 
@@ -29,7 +34,10 @@ export interface IChannel
 	link: string;
 	description: string;
 	language: string;
-	lastBuildDate: string;
+	/**
+	 * Sat, 25 Nov 2017 12:50 AM CST
+	 */
+	lastBuildDate: vDate;
 	ttl: vNumber;
 	location: {
 		city: string,
@@ -46,8 +54,8 @@ export interface IChannel
 	astronomy: { sunrise: string, sunset: string };
 	image: {
 		title: string,
-		width: string,
-		height: string,
+		width: vNumber,
+		height: vNumber,
 		link: string,
 		url: string
 	};
@@ -57,10 +65,10 @@ export interface IChannel
 		lat: vNumber,
 		long: vNumber,
 		link: string,
-		pubDate: string,
+		pubDate: vDate,
 		condition: {
 			code: vNumber,
-			date: string,
+			date: vDate,
 			temp: vNumber,
 			text: string
 		},
@@ -71,14 +79,21 @@ export interface IChannel
 export interface IForecast
 {
 	code: vNumber;
-	date: string;
+	date: vDate;
 	day: string;
 	high: vNumber;
 	low: vNumber;
 	text: string;
 }
 
-async function getWeather(location: string, unit: string | object = 'c', options?): Promise<IChannel>
+/**
+ *
+ * @param {string} location
+ * @param {string | Object} unit
+ * @param options
+ * @returns {Promise<IChannel>}
+ */
+export async function getWeather(location: string, unit: string | object = 'c', options?): Promise<IChannel>
 {
 	if (typeof unit == 'object')
 	{
