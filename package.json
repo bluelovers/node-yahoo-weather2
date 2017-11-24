@@ -1,0 +1,26 @@
+{
+  "name": "yahoo-weather2",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx mocha"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "lets-fetch": "^2.1.0"
+  },
+  "directories": {
+    "test": "test"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bluelovers/node-yahoo-weather2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bluelovers/node-yahoo-weather2/issues"
+  },
+  "homepage": "https://github.com/bluelovers/node-yahoo-weather2#readme",
+  "description": ""
+}
