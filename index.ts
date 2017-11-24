@@ -193,7 +193,9 @@ export function getWeatherPack(location: string, unit: string | object = 'c', op
 		[unit, options] = [null, unit];
 	}
 
-	if (options && options.unit)
+	options = options || {} as IOptions;
+
+	if (options.unit)
 	{
 		unit = options.unit;
 	}
@@ -201,7 +203,7 @@ export function getWeatherPack(location: string, unit: string | object = 'c', op
 	return getWeather(location, unit, options)
 		.then(async function (channel)
 		{
-			let z = await geoTimeZoneId(channel);
+			let z = options.utcOffset || await geoTimeZoneId(channel);
 
 			return packWeather(channel, {
 				lang: ((options && options.lang) ? options.lang : null),
