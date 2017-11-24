@@ -8,7 +8,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "lets-fetch": "^2.1.0"
+    "lets-fetch": "^2.1.0",
+    "moment": "^2.19.2"
   },
   "directories": {
     "test": "test"

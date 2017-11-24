@@ -2,14 +2,14 @@
  * Created by user on 2017/11/25/025.
  */
 
-import d from './index';
+import { ICode } from './index';
 
 /**
  * http://duckfly-tw.blogspot.com/2015/02/yql-yahoo-weather-api.html
  *
  * @type {{0: string; 1: string; 2: string; 3: string; 4: string; 5: string; 6: string; 7: string; 8: string; 9: string; 10: string; 11: string; 12: string; 13: string; 14: string; 15: string; 16: string; 17: string; 18: string; 19: string; 20: string; 21: string; 22: string; 23: string; 24: string; 25: string; 26: string; 27: string; 28: string; 29: string; 30: string; 31: string; 32: string; 33: string; 34: string; 35: string; 36: string; 37: string; 38: string; 39: string; 40: string; 41: string; 42: string; 43: string; 44: string; 45: string; 46: string; 47: string; 3200: string}}
  */
-export const code = {
+export const code: ICode = {
 	0: '龍捲風',
 	1: '熱帶風暴',
 	2: '颶風',
