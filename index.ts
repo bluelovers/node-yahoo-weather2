@@ -21,6 +21,9 @@ export interface IOptions
 {
 	lang?: string | any[];
 	utcOffset?: number | string | moment.Moment | null;
+	unit?: string;
+
+	[key: string]: any;
 }
 
 export interface IGeoTimezone
@@ -183,11 +186,16 @@ export function locales(lang: string, fallback?, cb?: Function)
 	return null;
 }
 
-export function getWeatherPack(location: string, unit: string | object = 'c', options?)
+export function getWeatherPack(location: string, unit: string | object = 'c', options?: IOptions)
 {
 	if (typeof unit == 'object')
 	{
 		[unit, options] = [null, unit];
+	}
+
+	if (options && options.unit)
+	{
+		unit = options.unit;
 	}
 
 	return getWeather(location, unit, options)
