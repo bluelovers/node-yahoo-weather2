@@ -8,8 +8,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "geo-timezone": "^1.0.2",
     "lets-fetch": "^2.1.0",
-    "moment": "^2.19.2"
+    "moment": "^2.19.2",
+    "moment-timezone": "^0.5.14"
   },
   "directories": {
     "test": "test"
