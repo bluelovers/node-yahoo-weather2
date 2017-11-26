@@ -206,7 +206,7 @@ export function getWeatherPack(location: string, unit: string | object = 'c', op
 			let z = options.utcOffset || await geoTimeZoneId(channel);
 
 			return packWeather(channel, {
-				lang: ((options && options.lang) ? options.lang : null),
+				lang: (options.lang ? options.lang : null),
 				utcOffset: z,
 			});
 		})
