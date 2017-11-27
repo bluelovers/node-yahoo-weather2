@@ -31,6 +31,8 @@ export interface IYahooResults
 
 export interface IChannel
 {
+	[index: number]: IChannel;
+
 	units: {
 		distance: string,
 		pressure: string,
