@@ -186,7 +186,7 @@ export function locales(lang: string, fallback?, cb?: Function)
 	return null;
 }
 
-export function getWeatherPack(location: string, unit: string | object = 'c', options?: IOptions)
+export function getWeatherPack(location: any, unit: string | object = 'c', options?: IOptions): Promise<IChannel>
 {
 	if (typeof unit == 'object')
 	{
@@ -203,12 +203,27 @@ export function getWeatherPack(location: string, unit: string | object = 'c', op
 	return getWeather(location, unit, options)
 		.then(async function (channel)
 		{
-			let z = options.utcOffset || await geoTimeZoneId(channel);
+			let z = options.utcOffset || await geoTimeZoneId(Array.isArray(channel) ? channel[0] : channel);
 
-			return packWeather(channel, {
-				lang: (options.lang ? options.lang : null),
-				utcOffset: z,
-			});
+			if (Array.isArray(channel))
+			{
+				(channel as IChannel[]).map(function (value: IChannel, index, array)
+				{
+					return packWeather(value, {
+						lang: (options.lang ? options.lang : null),
+						utcOffset: z,
+					});
+				})
+			}
+			else
+			{
+				packWeather(channel, {
+					lang: (options.lang ? options.lang : null),
+					utcOffset: z,
+				})
+			}
+
+			return channel;
 		})
 	;
 }
