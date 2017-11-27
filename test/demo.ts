@@ -7,7 +7,7 @@ import * as geoTimezone from 'geo-timezone';
 import * as util from 'util';
 import * as moment from 'moment';
 
-getWeatherPack('taipei', {
+getWeatherPack(-1, {
 	lang: 'zh',
 })
 	.then(function (channel)
